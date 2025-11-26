@@ -1,7 +1,6 @@
 streamlit
+pandas
 folium
-st_folium
-matplotlib.pyplot
-random
+streamlit-folium
+matplotlib
 requests
-date
