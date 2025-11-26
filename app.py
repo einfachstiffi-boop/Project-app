@@ -4,6 +4,14 @@ import folium
 from streamlit_folium import st_folium
 import matplotlib.pyplot as plt
 import random
+import requests 
+from datetime import date
+
+API_KEY = "0ASKD9hz3j4tj0pfBUULLIoe52liTcZf"
+url = f"https://app.ticketmaster.com/discovery/v2/events.json?apikey={API_KEY}&countryCode=CH&classificationName=Music"
+
+response = requests.get(url)
+data = response.json()
 
 st.set_page_config(page_title="Swiss Canton Capitals Events", layout="wide")
 st.title("Swiss Events")
