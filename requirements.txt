@@ -1,2 +1,7 @@
 streamlit
 folium
+st_folium
+matplotlib.pyplot
+random
+requests
+date
