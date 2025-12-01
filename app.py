@@ -83,14 +83,14 @@ def get_concerts_from_ticketmaster(city: str, start: date):
             }
         )
 
-     df = pd.DataFrame(rows)
+    df = pd.DataFrame(rows)
 
-     if "date" in df.columns:
-         df["date"] = pd.to_datetime(df["date"]).dt.date
+    if "date" in df.columns:
+        df["date"] = pd.to_datetime(df["date"]).dt.date
 
-     df = df.sort_values(by=["date", "time"], ascending=True)
+    df = df.sort_values(by=["date", "time"], ascending=True)
 
-     return df
+    return df
 
 if search and city.strip() != "":
     concerts = get_concerts_from_ticketmaster(stadt.strip(), start_date)
