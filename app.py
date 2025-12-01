@@ -108,7 +108,7 @@ if search and city.strip() != "":  #here we validate that the city insert field 
         else:
             display_df = display_df[["name", "date", "time", "venue", "city"]] #if there is no url available than theres no ticket link
             
-        st.dataFrame(display_df) #here we display the table on the app
+        st.dataframe(display_df) #here we display the table on the app
 
         map_df = concerts.dropna(subset=["lat", "lon"]) 
         if not map_df.empty:
