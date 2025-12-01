@@ -16,6 +16,14 @@ data = response.json()
 st.set_page_config(page_title="Swiss Canton Capitals Events", layout="wide")
 st.title("Swiss Events")
 
+st.write("Tell us the city you want to find a concert in!")
+
+city = st.text_input("Insert the city here.")
+
+start_date = st.date_input("Which date do you want to start looking for?", value=date.today())
+
+search = st.button("Search")
+
 @st.cache_data
 def load_data():
     capitals = {
