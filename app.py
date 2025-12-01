@@ -34,7 +34,7 @@ def get_concerts_from_ticketmaster(city: str, start: date):
     }
 
     resp = requests.get(BASE_URL, params=params)
-    if resp-status_code != 200:
+    if resp.status_code != 200:
         st.error(f"Error with the API request ({resp.status_code})")
         return pd.DataFrame()
 
