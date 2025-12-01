@@ -99,8 +99,13 @@ if search and city.strip() != "":
 
         st.subheader("Concerts found")
         display_df = concerts.copy()
-        display_df["Ticket-Link"] = display_df["url"]
-        display_df = display_df[["name", "date", "time", "venue", "city", "Ticket-Link"]]
+        
+        if "url" in display_df.columns:
+            display_df["Ticket-Link"] = display_df["url"]
+            display_df = display_df[["name", "date", "time", "venue", "city", "Ticket-Link"]]
+        else:
+            display_df = display_df[["name", "date", "time", "venue", "city"]]
+            
         st.dataframe(dsiplay_df)
 
         map_df = concerts.dropna(subset=["lat", "lon"])
