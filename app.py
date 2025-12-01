@@ -117,4 +117,94 @@ if search and city.strip() != "":
 else:
     st.info("Insert your desired City and press **Search**.")                             
 
+@st.cache_data
+def load_data():
+    capitals = {
+        "Zurich": [47.3769, 8.5417],
+        "Bern": [46.9481, 7.4474],
+        "Lucerne": [47.0502, 8.3093],
+        "Uri": [46.8747, 8.6389],
+        "Schwyz": [47.0207, 8.6536],
+        "Obwalden": [46.9200, 8.2900],
+        "Nidwalden": [46.9217, 8.3422],
+        "Glarus": [47.0406, 9.0684],
+        "Zug": [47.1712, 8.5155],
+        "Fribourg": [46.8065, 7.1619],
+        "Solothurn": [47.2087, 7.5326],
+        "Basel": [47.5596, 7.5886],
+        "Schaffhausen": [47.6980, 8.6359],
+        "Appenzell": [47.3482, 9.4074],
+        "St. Gallen": [47.4239, 9.3744],
+        "Graubünden": [46.8496, 9.5300],
+        "Aargau": [47.3926, 8.0446],
+        "Thurgau": [47.5247, 9.0524],
+        "Ticino": [46.0037, 8.9511],
+        "Vaud": [46.5197, 6.6323],
+        "Valais": [46.2276, 7.3606],
+        "Neuchâtel": [46.9910, 6.9293],
+        "Geneva": [46.2044, 6.1432],
+        "Jura": [47.3493, 7.1510]
+    }
+
+    # Define city sizes for weighted event counts
+    city_size_weight = {
+        "Zurich": "large", "Geneva": "large", "Basel": "large", "Bern": "large", "Lausanne": "large",
+        "Lucerne": "medium", "St. Gallen": "medium", "Lugano": "medium", "Fribourg": "medium", "Solothurn": "medium",
+        "Schaffhausen": "small", "Appenzell": "small", "Glarus": "small", "Uri": "small", "Obwalden": "small",
+        "Nidwalden": "small", "Zug": "medium", "Graubünden": "small", "Aargau": "medium", "Thurgau": "medium",
+        "Ticino": "medium", "Valais": "medium", "Neuchâtel": "medium", "Jura": "small"
+    }
+
+    event_types = ["Concert", "Festival", "Exhibition", "Conference", "Market", "Art Show", "Seminar", "Fair"]
+
+    data = []
+    for city in capitals.keys():
+        size = city_size_weight.get(city, "small")
+        if size == "large":
+            num_events = random.randint(6, 10)
+        elif size == "medium":
+            num_events = random.randint(3, 6)
+        else:  # small
+            num_events = random.randint(1, 3)
+        for i in range(num_events):
+            data.append({
+                "city": city,
+                "event_type": random.choice(event_types),
+                "date": f"2025-12-{i+1:02d}"
+            })
+
+    df = pd.DataFrame(data)
+    return df, capitals
+
+# Load data
+df, capitals = load_data()
+
+# ---- BAR CHART ----
+st.subheader("Number of Events per City")
+event_counts = df.groupby("city").size()
+
+fig, ax = plt.subplots(figsize=(12,6))
+event_counts.plot(kind="bar", color="skyblue", ax=ax)
+ax.set_ylabel("Number of Events")
+ax.set_xlabel("City")
+ax.set_ylim(1, 10)
+plt.xticks(rotation=45, ha='right')
+st.pyplot(fig)
+
+# ---- INTERACTIVE MAP ----
+st.subheader("Map of Events")
+m = folium.Map(location=[46.8, 8.2], zoom_start=7)
+
+for city, coords in capitals.items():
+    events_for_city = df[df["city"] == city]
+    popup_text = f"<b>{city}</b><br>"
+    for _, row in events_for_city.iterrows():
+        popup_text += f"{row['event_type']} ({row['date']})<br>"
+    folium.Marker(
+        location=coords,
+        popup=popup_text,
+        tooltip=city
+    ).add_to(m)
+
+st_folium(m, width=700, height=500)
 
