@@ -104,7 +104,7 @@ if search and city.strip() != "":
         display_df = display_df[["name", "date", "time", "venue", "city", "Ticket-Link"]]
         st.dataframe(dsiplay_df)
 
-        map_df = concerts.dropna(subset=["lat, "lon"])
+        map_df = concerts.dropna(subset=["lat", "lon"])
         if not map_df.empty:
             st.subheader("Map")
             st.map(map_df[["lat", "lon"]])
