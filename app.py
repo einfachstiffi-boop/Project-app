@@ -10,8 +10,7 @@ from datetime import date
 API_KEY = "0ASKD9hz3j4tj0pfBUULLIoe52liTcZf"
 BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"
 
-response = requests.get(url)
-data = response.json()
+
 
 st.set_page_config(page_title="Swiss Canton Capitals Events", layout="wide")
 st.title("Swiss Events")
