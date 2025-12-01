@@ -24,6 +24,17 @@ start_date = st.date_input("Which date do you want to start looking for?", value
 
 search = st.button("Search")
 
+def get_concerts_from_ticketmaster(city: str, start: date):
+    params = {
+        "apikey": API_KEY,
+        "countryCode": "CH",
+        "classificationName": "Music",
+        "size": 100,
+        "city": city,
+        "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),
+    }
+        
+
 @st.cache_data
 def load_data():
     capitals = {
