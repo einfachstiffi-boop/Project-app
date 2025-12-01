@@ -97,7 +97,7 @@ if search and city.strip() != "":
     if concerts.empty:
         st.warning(f"No concerts from {start_date} in {city} found.")
     else:
-        st.success(f"{len(konzerte)} Concerts found in {stadt}!")
+        st.success(f"{len(concerts)} Concerts found in {city}!")
 
         st.subheader("Concerts found")
         display_df = concerts.copy()
