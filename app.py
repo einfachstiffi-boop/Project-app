@@ -83,7 +83,7 @@ def get_concerts_from_ticketmaster(city: str, start: date):
             }
         )
 
-  df = pd.DateFrame(rows)
+  df = pd.DataFrame(rows)
 
   if "date" in df.columns:
       df["date"] = pd.to_datetime(df["date"]).dt.date
