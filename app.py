@@ -92,7 +92,7 @@ def get_concerts_from_ticketmaster(city: str, start: date):
     return df
 
 if search and city.strip() != "":
-    concerts = get_concerts_from_ticketmaster(stadt.strip(), start_date)
+    concerts = get_concerts_from_ticketmaster(city.strip(), start_date)
 
     if concerts.empty:
         st.warning(f"No concerts from {start_date} in {city} found.")
