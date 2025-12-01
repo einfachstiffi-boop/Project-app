@@ -106,7 +106,7 @@ if search and city.strip() != "":
         else:
             display_df = display_df[["name", "date", "time", "venue", "city"]]
             
-        st.dataframe(dsiplay_df)
+        st.dataframe(display_df)
 
         map_df = concerts.dropna(subset=["lat", "lon"])
         if not map_df.empty:
