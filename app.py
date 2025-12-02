@@ -19,16 +19,16 @@ st.write("Tell us the city you want to find a concert in!")    #This is a comman
 
 city = st.text_input("Insert the city here.") #here is the input field for the city name
 
-start_date = st.date_input("Which date do you want to start looking for?", value=date.today())   #here they can select the starting date for the time they want to look for the concerts
-
-search = st.button("Search") #thats just the button to start the process/search
+start_date = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for the time they want to look for the concerts
 
 option = st.selectbox(
     "What country would you want to search in?",
     ("DE", "AU", "CH"),
 )
 
-st.write("You selected:", option)
+st.write("You selected:", option) #here we can select the country which will be implemented into the api
+
+search = st.button("Search") #thats just the button to start the process/search
 
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
