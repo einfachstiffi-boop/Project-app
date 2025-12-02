@@ -12,8 +12,8 @@ BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"   #Thats the 
 
 
 
-st.set_page_config(page_title="Swiss Canton Capitals Events", layout="wide")
-st.title("Swiss Events")
+st.set_page_config(page_title="Concert findings", layout="wide")
+st.title("Concerts")
 
 st.write("Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
 
