@@ -23,6 +23,8 @@ start_date = st.date_input("Which date do you want to start looking for?", value
 
 search = st.button("Search") #thats just the button to start the process/search
 
+choices = st.multiselect("CH", "DE", "AU")
+
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
         "apikey": API_KEY,
