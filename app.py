@@ -23,7 +23,7 @@ start_date = st.date_input("Which date do you want to start looking for?", value
 
 option = st.selectbox(
     "What country would you want to search in?",
-    ("DE", "AU", "CH"),
+    ("DE", "AT", "CH"),
 ) #here we can select the country which will be implemented into the api
 
 search = st.button("Search") #thats just the button to start the process/search
