@@ -33,7 +33,7 @@ st.write("You selected:", option)
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
         "apikey": API_KEY,
-        "countryCode": "CH",
+        "countryCode": option,
         "classificationName": "Music",
         "size": 100,
         "city": city,
