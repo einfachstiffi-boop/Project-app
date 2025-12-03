@@ -127,7 +127,7 @@ def sort_concerts_by_genre_by_ai(options):
 
     content = response.choices[0].message.content
 
-return concerts
+    return concerts
 
 if search and city.strip() != "":  #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     concert = sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
