@@ -111,6 +111,7 @@ def get_concerts_from_ticketmaster(city: str, start: date):
     return df   #here we sort the concerts by date and time so they know which concerts are first 
 
 def sort_concerts_by_genre_by_ai(options):
+    return 
     df = get_concerts_from_ticketmaster(city.strip(), start_date)
     if df.empty:
         return df
@@ -161,7 +162,7 @@ def sort_concerts_by_genre_by_ai(options):
     return filtered_df
 
 if search and city.strip() != "":  #here we validate that the city insert field is not empty else it will show the error message at the end of this code
-    concerts = sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
+    concerts = get_concerts_from_ticketmaster(city.strip(), start_date) #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
     if concerts.empty:
         st.warning(f"No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
