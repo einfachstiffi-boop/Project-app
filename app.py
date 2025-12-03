@@ -26,6 +26,12 @@ option = st.selectbox(
     ("DE", "AT", "CH"),
 ) #here we can select the country which will be implemented into the api
 
+options = st.multiselect(
+    "What genre are you looking for?",
+    ["Pop", "Rock", "Hip-Hop / Rap", "R&B", "Jazz", "Blues", "Classical", "Electronic / EDM", "House", "Techno", "Reggae", "Country", "Metal", "Punk", "Soul", "Funk", "Disco", "Folk", "Latin", "Gospel"],
+    default=["Pop", "Rock"],
+)
+
 search = st.button("Search") #thats just the button to start the process/search
 
 def get_concerts_from_ticketmaster(city: str, start: date):
