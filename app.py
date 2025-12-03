@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import random
 import requests 
 from datetime import date
+from openai import OpenAI
+
 
 API_KEY = "0ASKD9hz3j4tj0pfBUULLIoe52liTcZf"
 BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"   #Thats the API key thats being requested including the ticketmaster url with all the concert information
@@ -102,16 +104,41 @@ def get_concerts_from_ticketmaster(city: str, start: date):
 
     return df   #here we sort the concerts by date and time so they know which concerts are first 
 
+def sort_concerts_by_genre_by_ai(options):
+    concerts = get_concerts_from_ticketmaster(city.strip(), start_date)
+
+    system_msg = f"""
+    You are a strict concert sorter by music genres.
+    You will receive the concerts and have to sort them by genre only sort out the concerts that do not match the given genres.
+    Here is the genre list you must use: {options}
+    Rules:
+    Output: return the left over concerts in the same format they were given into this {concerts}
+    """
+    user_msg = "Here are the concerts to classify:\n\n" + concerts
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_msg},
+        ],
+        temperature=0.0,
+    )
+
+    content = response.choices[0].message.content
+
+return concerts
+
 if search and city.strip() != "":  #here we validate that the city insert field is not empty else it will show the error message at the end of this code
-    concerts = get_concerts_from_ticketmaster(city.strip(), start_date)   #here we convert the information the user gave us like the city and starting date
+    concert = sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
     if concerts.empty:
         st.warning(f"No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
     else:
-        st.success(f"{len(concerts)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
+        st.success(f"{len(concert)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
 
         st.subheader("Concerts found") #this is just a small text that concerts were found
-        display_df = concerts.copy()  
+        display_df = concert.copy()  
         
         if "url" in display_df.columns:
             display_df["Ticket-Link"] = display_df["url"]  #here we just display the url in the table as the ticket link
@@ -121,7 +148,7 @@ if search and city.strip() != "":  #here we validate that the city insert field 
             
         st.dataframe(display_df) #here we display the table on the app
 
-        map_df = concerts.dropna(subset=["lat", "lon"]) 
+        map_df = concert.dropna(subset=["lat", "lon"]) 
         if not map_df.empty:
             st.subheader("Map")
             st.map(map_df[["lat", "lon"]])  #here we use the coordinates to implement the concerts on the map and display it 
