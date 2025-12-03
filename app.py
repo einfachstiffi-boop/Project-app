@@ -106,16 +106,32 @@ def get_concerts_from_ticketmaster(city: str, start: date):
     return df   #here we sort the concerts by date and time so they know which concerts are first 
 
 def sort_concerts_by_genre_by_ai(options):
-    concerts = get_concerts_from_ticketmaster(city.strip(), start_date)
+    df = get_concerts_from_ticketmaster(city.strip(), start_date)
+    if df.empty:
+        return df
+
+    concerts_for_ai = df[["id", "name", "venue", "city", "date"]].to_dict(orient="records")
 
     system_msg = f"""
     You are a strict concert sorter by music genres.
-    You will receive the concerts and have to sort them by genre only sort out the concerts that do not match the given genres.
-    Here is the genre list you must use: {options}
+    You will receive a JSON array of Concerts.
+    For each concert find if it matches any of the given genres:
+
+    Given genres (human, not strict): {options}
+    
     Rules:
-    Output: return the left over concerts in the same format they were given into this {concerts}
+    - Output ONLY valid JSON
+    - Decide if the concerts fit at lest one of the given genres
+    - Return only concerts that match
+
+    Output format (JSON array):
+    [
+      {{"id": <id_of_concert_to_keep>}},
+      ...
+    ]
     """
-    user_msg = "Here are the concerts to classify:\n\n" + concerts
+    user_msg = "Here are the concerts to classify:\n\n" + json.dumps(concerts_for_ai, ensure_ascii = false, indent=2)
+
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -128,18 +144,23 @@ def sort_concerts_by_genre_by_ai(options):
 
     content = response.choices[0].message.content
 
-    return concerts
+    kept = json.loads(content)
+
+    kept_ids = {item["id"] for item in kept if "id" in item}
+
+    filtered_df = df[df["id"].isin(kept_ids)].copy()
+    return filtered_df
 
 if search and city.strip() != "":  #here we validate that the city insert field is not empty else it will show the error message at the end of this code
-    concert = sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
+    concerts = sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
     if concerts.empty:
         st.warning(f"No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
     else:
-        st.success(f"{len(concert)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
+        st.success(f"{len(concerts)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
 
         st.subheader("Concerts found") #this is just a small text that concerts were found
-        display_df = concert.copy()  
+        display_df = concerts.copy()  
         
         if "url" in display_df.columns:
             display_df["Ticket-Link"] = display_df["url"]  #here we just display the url in the table as the ticket link
@@ -149,7 +170,7 @@ if search and city.strip() != "":  #here we validate that the city insert field 
             
         st.dataframe(display_df) #here we display the table on the app
 
-        map_df = concert.dropna(subset=["lat", "lon"]) 
+        map_df = concerts.dropna(subset=["lat", "lon"]) 
         if not map_df.empty:
             st.subheader("Map")
             st.map(map_df[["lat", "lon"]])  #here we use the coordinates to implement the concerts on the map and display it 
