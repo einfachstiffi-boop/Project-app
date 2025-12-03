@@ -7,12 +7,13 @@ import random
 import requests 
 from datetime import date
 from openai import OpenAI
+import json
 
 
 API_KEY = "0ASKD9hz3j4tj0pfBUULLIoe52liTcZf"
 BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"   #Thats the API key thats being requested including the ticketmaster url with all the concert information
 
-
+client = OpenAI()
 
 st.set_page_config(page_title="Concert findings", layout="wide")
 st.title("Concerts")
