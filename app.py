@@ -8,7 +8,9 @@ import requests
 from datetime import date
 from openai import OpenAI
 import json
+import os
 
+openai_api_key = st.secrets.get("OPENAI_API_KEY", os.environ.get("OPENAI_API_KEY"))
 
 API_KEY = "0ASKD9hz3j4tj0pfBUULLIoe52liTcZf"
 BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"   #Thats the API key thats being requested including the ticketmaster url with all the concert information
