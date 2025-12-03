@@ -103,6 +103,9 @@ def get_concerts_from_ticketmaster(city: str, start: date):
 
     df = df.sort_values(by=["date", "time"], ascending=True)
 
+    df = df.reset_index(drop=True)
+    df["id"] = df.index
+
     return df   #here we sort the concerts by date and time so they know which concerts are first 
 
 def sort_concerts_by_genre_by_ai(options):
