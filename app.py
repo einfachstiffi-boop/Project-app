@@ -133,7 +133,7 @@ def sort_concerts_by_genre_by_ai(options):
       ...
     ]
     """
-    user_msg = "Here are the concerts to classify:\n\n" + json.dumps(concerts_for_ai, ensure_ascii = false, indent=2)
+    user_msg = "Here are the concerts to classify:\n\n" + json.dumps(concerts_for_ai, ensure_ascii = False, indent=2)
 
 
     response = client.chat.completions.create(
