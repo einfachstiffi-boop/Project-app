@@ -117,7 +117,7 @@ def sort_concerts_by_genre_by_ai(options):
 
     df_for_ai["date"] = df_for_ai["date"].astype(str)
 
-    concerts_for_ai = df[["id", "name", "venue", "city", "date"]].to_dict(orient="records")
+    concerts_for_ai = df_for_ai[["id", "name", "venue", "city", "date"]].to_dict(orient="records")
 
     system_msg = f"""
     You are a strict concert sorter by music genres.
