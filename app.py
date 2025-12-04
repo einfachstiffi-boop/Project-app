@@ -6,16 +6,11 @@ import matplotlib.pyplot as plt
 import random
 import requests 
 from datetime import date
-from openai import OpenAI
-import json
-import os
 
-openai_api_key = st.secrets.get("OPENAI_API_KEY", os.environ.get("OPENAI_API_KEY"))
 
 API_KEY = "0ASKD9hz3j4tj0pfBUULLIoe52liTcZf"
 BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"   #Thats the API key thats being requested including the ticketmaster url with all the concert information
 
-client = OpenAI()
 
 st.set_page_config(page_title="Concert findings", layout="wide")
 st.title("🎵✨ Concert Finder ✨🎵")
@@ -116,56 +111,6 @@ def get_concerts_from_ticketmaster(city: str, start: date):
 
     return df   #here we sort the concerts by date and time so they know which concerts are first 
 
-def sort_concerts_by_genre_by_ai(options):
-    return 
-    df = get_concerts_from_ticketmaster(city.strip(), start_date)
-    if df.empty:
-        return df
-
-    df_for_ai = df[["id", "name", "venue", "city", "date"]].copy()
-
-    df_for_ai["date"] = df_for_ai["date"].astype(str)
-
-    concerts_for_ai = df_for_ai[["id", "name", "venue", "city", "date"]].to_dict(orient="records")
-
-    system_msg = f"""
-    You are a strict concert sorter by music genres.
-    You will receive a JSON array of Concerts.
-    For each concert find if it matches any of the given genres:
-
-    Given genres (human, not strict): {options}
-    
-    Rules:
-    - Output ONLY valid JSON
-    - Decide if the concerts fit at lest one of the given genres
-    - Return only concerts that match
-
-    Output format (JSON array):
-    [
-      {{"id": <id_of_concert_to_keep>}},
-      ...
-    ]
-    """
-    user_msg = "Here are the concerts to classify:\n\n" + json.dumps(concerts_for_ai, ensure_ascii = False, indent=2)
-
-
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": system_msg},
-            {"role": "user", "content": user_msg},
-        ],
-        temperature=0.0,
-    )
-
-    content = response.choices[0].message.content
-
-    kept = json.loads(content)
-
-    kept_ids = {item["id"] for item in kept if "id" in item}
-
-    filtered_df = df[df["id"].isin(kept_ids)].copy()
-    return filtered_df
 
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     with st.spinner("Searching for concerts..."):
