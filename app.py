@@ -158,6 +158,5 @@ else:
            
     else:
         st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
-else:
-    st.info("Insert your desired City and press **Search**.")   #this is just if the user didnt insert a city                          
+                         
 
