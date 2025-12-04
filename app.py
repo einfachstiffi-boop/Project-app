@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import random
 import requests 
 from datetime import date
+from folium.plugins import MarkerCluster
 
 
 API_KEY = "0ASKD9hz3j4tj0pfBUULLIoe52liTcZf"
@@ -134,10 +135,29 @@ if search and city.strip() != "": #here we validate that the city insert field i
 
         map_df = concerts.dropna(subset=["lat", "lon"]) 
         if not map_df.empty:
-            st.subheader("Map")
-            st.map(map_df[["lat", "lon"]])  #here we use the coordinates to implement the concerts on the map and display it 
+            st.subheader("Map of Concerts")
+            
+            m = folium.Map(location=[map_df["lat"].mean(), map_df["lon"].mean()], zoom_start=10) #here we center the map around the average coordinates
+            
+            marker_cluster = MarkerCluster().add_to(m) #here we cluster nerby markers
+
+            for idx, row in map_df.iterrows():
+                popup_html = f"""
+                <b>{row['name']}</b><br>
+                📍 {row['venue']}, {row['city']}<br>
+                📅 {row['date']} {row['time']}<br>
+                {'a href="'+row['url'] + '"target="_blank">🎟️ Tickets</a>' if row.get('url') else ''} #here we create the content that will appear when you click on the marker
+                """
+                folium.Marker(
+                    location = [row["lat"], row["lon"]],
+                    popup = popup_html,
+                    icon=folium.Icon(color = 'blue', icon = 'music', prefix = 'fa')
+                ).add_to(marker_cluster) #here we create the folium marker 
+                
+            st_folium(m, height=500)
+           
         else:
-            st.info("For those Events there is no Map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
+            st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
 else:
     st.info("Insert your desired City and press **Search**.")   #this is just if the user didnt insert a city                          
 
