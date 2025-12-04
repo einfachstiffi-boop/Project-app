@@ -115,10 +115,14 @@ def get_concerts_from_ticketmaster(city: str, start: date):
 
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     with st.spinner("Searching for concerts..."):
-        concerts = get_concerts_from_ticketmaster(city.strip(), start_date) #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
+        st.session_state['concerts'] = get_concerts_from_ticketmaster(city.strip(), start_date) #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
+concerts = st.session_state.get('concerts', pd.DataFrame())
     if concerts.empty:
-        st.warning(f"🙁 No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
+        if search:
+            st.warning(f"🙁 No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
+        else:
+            st.info("Insert your desired city and press **Search**.")
     else:
         st.success(f"🎉 {len(concerts)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
 
@@ -146,7 +150,7 @@ if search and city.strip() != "": #here we validate that the city insert field i
                 <b>{row['name']}</b><br>
                 📍 {row['venue']}, {row['city']}<br>
                 📅 {row['date']} {row['time']}<br>
-                {'a href="'+row['url'] + '"target="_blank">🎟️ Tickets</a>' if row.get('url') else ''} #here we create the content that will appear when you click on the marker
+                {'<a href="'+row['url'] + '"target="_blank">🎟️ Tickets</a>' if row.get('url') else ''} #here we create the content that will appear when you click on the marker
                 """
                 folium.Marker(
                     location = [row["lat"], row["lon"]],
