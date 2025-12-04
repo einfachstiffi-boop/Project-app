@@ -19,7 +19,7 @@ st.markdown("""Find concerts in Switzerland, Germany and Austria - fast and easy
 
 st.write("Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 with col1:
     city = st.text_input("Insert the city here.") #here is the input field for the city name
 with col2:
@@ -29,6 +29,8 @@ with col3:
     "What country would you want to search in?",
     ("DE", "AT", "CH"),
     ) #here we can select the country which will be implemented into the api
+with col4:
+    artist = st.text_input("Insert the artist here.")
 
 options = st.multiselect(
     "What genre are you looking for?",
