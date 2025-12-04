@@ -43,9 +43,7 @@ options = st.multiselect(
     default=["Pop", "Rock"],
 )
 
-col_left, col_center, col_right = st.columns ([1,2,1])
-with col_center:
-    search = st.button("Search") #thats just the button to start the process/search
+search = st.button("Search") #thats just the button to start the process/search
 
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
