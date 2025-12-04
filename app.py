@@ -118,13 +118,13 @@ if search and city.strip() != "": #here we validate that the city insert field i
         st.session_state['concerts'] = get_concerts_from_ticketmaster(city.strip(), start_date) #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
 concerts = st.session_state.get('concerts', pd.DataFrame())
-    if concerts.empty:
-        if search:
-            st.warning(f"🙁 No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
-        else:
-            st.info("Insert your desired city and press **Search**.")
+if concerts.empty:
+    if search:
+        st.warning(f"🙁 No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
     else:
-        st.success(f"🎉 {len(concerts)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
+        st.info("Insert your desired city and press **Search**.")
+else:
+    st.success(f"🎉 {len(concerts)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
 
         st.subheader("Concerts found") #this is just a small text that concerts were found
         display_df = concerts.copy()  
