@@ -20,13 +20,10 @@ st.markdown("""Find concerts in Switzerland, Germany and Austria - fast and easy
 st.write("Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
 
 col1, col2, col3 = st.columns(3)
-
 with col1:
     city = st.text_input("Insert the city here.") #here is the input field for the city name
-
 with col2:
     start_date = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for the time they want to look for the concerts
-
 with col3:
     option = st.selectbox(
     "What country would you want to search in?",
@@ -118,6 +115,7 @@ if search and city.strip() != "": #here we validate that the city insert field i
         st.session_state['concerts'] = get_concerts_from_ticketmaster(city.strip(), start_date) #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
 concerts = st.session_state.get('concerts', pd.DataFrame())
+
 if concerts.empty:
     if search:
         st.warning(f"🙁 No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
@@ -126,42 +124,40 @@ if concerts.empty:
 else:
     st.success(f"🎉 {len(concerts)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
 
-        st.subheader("Concerts found") #this is just a small text that concerts were found
-        display_df = concerts.copy()  
+    st.subheader("Concerts found") #this is just a small text that concerts were found
+    display_df = concerts.copy()  
         
-        if "url" in display_df.columns:
-            display_df["Ticket-Link"] = display_df["url"]  #here we just display the url in the table as the ticket link
-            display_df = display_df[["name", "date", "time", "venue", "city", "Ticket-Link"]] #these are the columns in the table from the rows we defined before
-        else:
-            display_df = display_df[["name", "date", "time", "venue", "city"]] #if there is no url available than theres no ticket link
+    if "url" in display_df.columns:
+        display_df["Ticket-Link"] = display_df["url"]  #here we just display the url in the table as the ticket link
+        display_df = display_df[["name", "date", "time", "venue", "city", "Ticket-Link"]] #these are the columns in the table from the rows we defined before
+    else:
+        display_df = display_df[["name", "date", "time", "venue", "city"]] #if there is no url available than theres no ticket link
             
-        st.dataframe(display_df) #here we display the table on the app
+    st.dataframe(display_df) #here we display the table on the app
 
-        map_df = concerts.dropna(subset=["lat", "lon"]) 
-        if not map_df.empty:
-            st.subheader("Map of Concerts")
-            
-            m = folium.Map(location=[map_df["lat"].mean(), map_df["lon"].mean()], zoom_start=10) #here we center the map around the average coordinates
-            
-            marker_cluster = MarkerCluster().add_to(m) #here we cluster nerby markers
+    map_df = concerts.dropna(subset=["lat", "lon"]) 
+    if not map_df.empty:
+        st.subheader("Map of Concerts")
+        m = folium.Map(location=[map_df["lat"].mean(), map_df["lon"].mean()], zoom_start=10) #here we center the map around the average coordinates
+        marker_cluster = MarkerCluster().add_to(m) #here we cluster nerby markers
 
-            for idx, row in map_df.iterrows():
-                popup_html = f"""
-                <b>{row['name']}</b><br>
-                📍 {row['venue']}, {row['city']}<br>
-                📅 {row['date']} {row['time']}<br>
-                {'<a href="'+row['url'] + '"target="_blank">🎟️ Tickets</a>' if row.get('url') else ''} #here we create the content that will appear when you click on the marker
-                """
-                folium.Marker(
-                    location = [row["lat"], row["lon"]],
-                    popup = popup_html,
-                    icon=folium.Icon(color = 'blue', icon = 'music', prefix = 'fa')
-                ).add_to(marker_cluster) #here we create the folium marker 
+        for idx, row in map_df.iterrows():
+            popup_html = f"""
+            <b>{row['name']}</b><br>
+            📍 {row['venue']}, {row['city']}<br>
+             📅 {row['date']} {row['time']}<br>
+             {'<a href="' + row['url'] + '" target="_blank">🎟️ Tickets</a>' if row.get('url') else ''} #here we create the content that will appear when you click on the marker
+            """
+            folium.Marker(
+                location = [row["lat"], row["lon"]],
+                popup = popup_html,
+                icon=folium.Icon(color = 'blue', icon = 'music', prefix = 'fa')
+            ).add_to(marker_cluster) #here we create the folium marker 
                 
-            st_folium(m, height=500)
+        st_folium(m, height=500)
            
-        else:
-            st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
+    else:
+        st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
 else:
     st.info("Insert your desired City and press **Search**.")   #this is just if the user didnt insert a city                          
 
