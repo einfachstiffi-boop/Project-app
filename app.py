@@ -38,16 +38,9 @@ options = st.multiselect(
 
 search = st.button("Search") #thats just the button to start the process/search
 
-col4, col5, col6 = st.columns(3)
-with col4:
-    artist = st.text_input("Insert the artist here.") #here is the input field for the city name
-with col5:
-    start_date2 = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for the time they want to look for the concerts
-with col6:
-    option2 = st.selectbox(
-    "What country would you want to search in?",
-    ("DE", "AT", "CH"),
-    ) #here we can select the country which will be implemented into the api
+st.write("Tell us the Artist you want to look for!")
+
+artist = st.text_input("Insert the Artist here")
 
 search2 = st.button("Search")
 
