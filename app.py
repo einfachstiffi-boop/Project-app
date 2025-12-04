@@ -19,7 +19,7 @@ st.markdown("""Find concerts in Switzerland, Germany and Austria - fast and easy
 
 st.write("Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 with col1:
     city = st.text_input("Insert the city here.") #here is the input field for the city name
 with col2:
@@ -29,8 +29,6 @@ with col3:
     "What country would you want to search in?",
     ("DE", "AT", "CH"),
     ) #here we can select the country which will be implemented into the api
-with col4:
-    artist = st.text_input("Insert the artist here.")
 
 options = st.multiselect(
     "What genre are you looking for?",
@@ -39,6 +37,19 @@ options = st.multiselect(
 )
 
 search = st.button("Search") #thats just the button to start the process/search
+
+col1, col2, col3 = st.columns(3)
+with col1:
+    artist = st.text_input("Insert the artist here".) #here is the input field for the city name
+with col2:
+    start_date2 = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for the time they want to look for the concerts
+with col3:
+    option2 = st.selectbox(
+    "What country would you want to search in?",
+    ("DE", "AT", "CH"),
+    ) #here we can select the country which will be implemented into the api
+
+search2 = st.button("Search")
 
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
