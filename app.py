@@ -42,7 +42,7 @@ st.write("Tell us the Artist you want to look for!")
 
 artist = st.text_input("Insert the Artist here")
 
-search2 = st.button("Search")
+look = st.button("Search")
 
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
