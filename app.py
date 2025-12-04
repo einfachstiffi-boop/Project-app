@@ -40,7 +40,7 @@ search = st.button("Search") #thats just the button to start the process/search
 
 col1, col2, col3 = st.columns(3)
 with col1:
-    artist = st.text_input("Insert the artist here".) #here is the input field for the city name
+    artist = st.text_input("Insert the artist here.") #here is the input field for the city name
 with col2:
     start_date2 = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for the time they want to look for the concerts
 with col3:
