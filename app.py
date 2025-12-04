@@ -19,12 +19,14 @@ st.markdown("""Find concerts in Switzerland, Germany and Austria - fast and easy
 
 st.write("Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 with col1:
     city = st.text_input("Insert the city here.") #here is the input field for the city name
 with col2:
-    start_date = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for the time they want to look for the concerts
+    artist = st.text_input("Insert the Artist here")
 with col3:
+    start_date = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for the time they want to look for the concerts
+with col4:
     option = st.selectbox(
     "What country would you want to search in?",
     ("DE", "AT", "CH"),
@@ -36,13 +38,11 @@ options = st.multiselect(
     default=["Pop", "Rock"],
 )
 
-search = st.button("Search") #thats just the button to start the process/search
-
-st.write("Tell us the Artist you want to look for!")
-
-artist = st.text_input("Insert the Artist here")
-
-look = st.button("Search Artist")
+col5, col6 = st.columns(2)
+with col5:
+    search = st.button("Search") #thats just the button to start the process/search
+with col6:
+    look = st.button("Search Artist")
 
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
@@ -164,5 +164,76 @@ else:
            
     else:
         st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
+
+def get_artists_from_ticketmaster(artist: str, start: date):
+    params = {
+        "apikey": API_KEY,
+        "countryCode": option,
+        "classificationName": "Music",
+        "size": 100,
+        "city": city,
+        "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),   #here we def a function so we can request the right information from Ticketmaster for example we clarify music so its concert based and CH so its only for Switzerland also we limit the concerts to 100
+    }
+
+    resp = requests.get(BASE_URL, params=params)
+    if resp.status_code != 200:
+        st.error(f"Error with the API request ({resp.status_code})")
+        return pd.DataFrame()  #here we send a status code to ticketmaster and if it responds everything is fine. If it doesnt respond we send back an empty dataframe
+
+    data = resp.json()  #here the information of the API will get translated into a pyhton library
+
+    events = data.get("_embedded", {}).get("events", [])
+    if not events:
+        return pd.DataFrame()   #here we try to get the events from ticketmaster if there are no events we return an empty dataframe
+
+    rows = []
+    for ev in events:
+        name = ev.get("name")
+        dates = ev.get("dates", {})
+        start_info = dates.get("start", {})
+        local_date = start_info.get("localDate")
+        local_time = start_info.get("localTime")  #here we start getting the information we need to display like name, dates and the date and time it starts
+
+        venue_name = None  
+        city_name = None
+        lat = None
+        lon = None   #here we define variables so we can display the venue name, and latitude and longitude for the coordinates we need for the display in the map later on
+
+        embedded = ev.get("_embedded", {})
+        venues = embedded.get("venues", [])
+        if venues:
+            v = venues[0]
+            venue_name = v.get("name")    #here we get the venue name
+            city_name = v.get("city", {}).get("name")   
+            loc = v.get("location", {})
+            lat = loc.get("latitude")
+            lon = loc.get("longitude")   #here we get the location so the longitude/latitude for the coordinates
+
+        url = ev.get("url")  #here we just get the url which will later serve as the Ticket Link
+
+        rows.append(
+            {
+                "name": name,
+                "date": local_date,
+                "time": local_time,
+                "city": city_name,
+                "venue": venue_name,
+                "lat": float(lat) if lat is not None else None,
+                "lon": float(lon) if lon is not None else None,
+                "url": url,  #here we define what information we want to have ready to implement later on in the table and the map, thats like our own library. Thats also why longitude and latitude are float variables because they are coordinates for the map
+            }
+        )
+
+    df = pd.DataFrame(rows) #we convert our own library (rows) into the the DataFrame/table
+
+    if "date" in df.columns:
+        df["date"] = pd.to_datetime(df["date"]).dt.date
+
+    df = df.sort_values(by=["date", "time"], ascending=True)
+
+    df = df.reset_index(drop=True)
+    df["id"] = df.index
+
+    return df
                          
 
