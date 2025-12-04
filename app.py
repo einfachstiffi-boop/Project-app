@@ -171,7 +171,7 @@ def get_artists_from_ticketmaster(artist: str, start: date):
         "countryCode": option,
         "classificationName": "Music",
         "size": 100,
-        "artist": artist,
+        "name": artist,
         "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),   #here we def a function so we can request the right information from Ticketmaster for example we clarify music so its concert based and CH so its only for Switzerland also we limit the concerts to 100
     }
 
@@ -243,7 +243,7 @@ if look and artist.strip() != "": #here we validate that the city insert field i
 artists = st.session_state.get('concerts', pd.DataFrame())
 
 if artists.empty:
-    if search:
+    if look:
         st.warning(f"🙁 No concerts from {artist} found.") #when there are no events it will be displayed that there are no events in this city/at that time
     else:
         st.info("Insert your desired artist and press **Search**.")
