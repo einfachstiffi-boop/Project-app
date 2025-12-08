@@ -139,7 +139,20 @@ else:
     else:
         display_df = display_df[["name", "date", "time", "venue", "city"]] #if there is no url available than theres no ticket link
             
-    st.dataframe(display_df) #here we display the table on the app
+ 
+    from datetime import date
+    display_df["date"] = pd.to_datetime(display_df["date"]).dt.date
+    today = date.today()
+
+    def highlight_today(row):
+        return [
+            "background-color: #fff3cd; font-weight: bold"
+            if (col == "date" and row["date"] == today)
+            else ""
+            for col in display_df.columns
+        ]
+
+    st.dataframe (display_df.style.apply(highlight_today, axis=1))
 
     map_df = concerts.dropna(subset=["lat", "lon"]) 
     if not map_df.empty:
@@ -166,7 +179,6 @@ else:
         st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
 
 def get_artists_from_ticketmaster(artist: str, start: date):
-    return
     params = {
         "apikey": API_KEY,
         "countryCode": option,
