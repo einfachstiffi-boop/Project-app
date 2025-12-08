@@ -14,8 +14,8 @@ BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"   #Thats the 
 
 
 st.set_page_config(page_title="Concert findings", layout="wide")
-st.title("🎵✨ Concert Finder")
-st.markdown("""Find concerts in Switzerland, Germany and Austria - fast and easy""")
+st.title("🎵✨ Find Your Next Concert!")
+st.markdown("""Discover upcoming concerts near you - by city, genre, or your favorite artists.""")
 
 st.write("📍 Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
 
