@@ -152,8 +152,8 @@ else:
             <b>{row['name']}</b><br>
             📍 {row['venue']}, {row['city']}<br>
              📅 {row['date']} {row['time']}<br>
-             {'<a href="' + row['url'] + '" target="_blank">🎟️ Tickets</a>' if row.get('url') else ''} #here we create the content that will appear when you click on the marker
-            """
+             {'<a href="' + row['url'] + '" target="_blank">🎟️ Tickets</a>' if row.get('url') else ''} 
+            """ #here we create the content that will appear when you click on the marker
             folium.Marker(
                 location = [row["lat"], row["lon"]],
                 popup = popup_html,
