@@ -15,24 +15,24 @@ BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"   #Thats the 
 
 st.set_page_config(page_title="Concert findings", layout="wide")
 st.title("🎵✨ Find Your Next Concert!")
-st.markdown("""Discover upcoming concerts near you - by city, genre, or your favorite artists.""")
+st.markdown("""Discover upcoming concerts near you - by city, genre, or your favorite artists.""") #This is the title and the subtitle of our app
 
 st.divider()
 
-st.write("📍 Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
+st.write("📍 Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they want to find the concert in
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     city = st.text_input("Insert the city here.") #here is the input field for the city name
 with col2:
-    artist = st.text_input("Insert the Artist here")
+    artist = st.text_input("Insert the Artist here") #here is the input field for the artist
 with col3:
-    start_date = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for the time they want to look for the concerts
+    start_date = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for which the user wants to find ongoing concerts
 with col4:
     option = st.selectbox(
     "What country would you want to search in?",
     ("DE", "AT", "CH"),
-    ) #here we can select the country which will be implemented into the api
+    ) #here we can select the country which will be implemented into the API
 
 st.divider()
 
@@ -40,13 +40,13 @@ options = st.multiselect(
     "🎧 What genre are you looking for?",
     ["Pop", "Rock", "Hip-Hop / Rap", "R&B", "Jazz", "Blues", "Classical", "Electronic / EDM", "House", "Techno", "Reggae", "Country", "Metal", "Punk", "Soul", "Funk", "Disco", "Folk", "Latin", "Gospel"],
     default=["Pop", "Rock"],
-)
+) #here the user can select multiple music genres they are interested in. Pop and rock are used as default music genres
 
 col5, col6 = st.columns(2)
 with col5:
     search = st.button("🔎 Search in City") #thats just the button to start the process/search
 with col6:
-    look = st.button("🎤 Search Artist")
+    look = st.button("🎤 Search Artist") 
 
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
@@ -103,7 +103,7 @@ def get_concerts_from_ticketmaster(city: str, start: date):
                 "venue": venue_name,
                 "lat": float(lat) if lat is not None else None,
                 "lon": float(lon) if lon is not None else None,
-                "url": url,  #here we define what information we want to have ready to implement later on in the table and the map, thats like our own library. Thats also why longitude and latitude are float variables because they are coordinates for the map
+                "url": url,  #here we define what information we want to have ready to implement later on in the table and the map, that's like our own library. That's also why longitude and latitude are float variables because they are coordinates for the map
             }
         )
 
@@ -117,7 +117,7 @@ def get_concerts_from_ticketmaster(city: str, start: date):
     df = df.reset_index(drop=True)
     df["id"] = df.index
 
-    return df   #here we sort the concerts by date and time so they know which concerts are first 
+    return df   #here we sort the concerts by date and time so the user knows which concerts are first 
 
 
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
