@@ -34,7 +34,7 @@ with col4:
     ("DE", "AT", "CH"),
     ) #here we can select the country which will be implemented into the api
 
-st.divider
+st.divider()
 
 options = st.multiselect(
     "🎧 What genre are you looking for?",
@@ -172,7 +172,7 @@ else:
                 <b>{row['name']}</b><br>
                 📍 {row['venue']}, {row['city']}<br>
                  📅 {row['date']} {row['time']}<br>
-                 {f'<a href="{row["url"]}" target="_blank" style ="text-decoration:none; font-weight:boldy;">🎟️ Get Tickets</a>' if row.get('url') else ''} 
+                 {f'<a href="{row["url"]}" target="_blank" style ="text-decoration:none; font-weight:bold;">🎟️ Get Tickets</a>' if row.get('url') else ''} 
             </div>
             """ #here we create the content that will appear when you click on the marker
             
