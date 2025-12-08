@@ -17,7 +17,7 @@ st.set_page_config(page_title="Concert findings", layout="wide")
 st.title("🎵✨ Concert Finder ✨🎵")
 st.markdown("""Find concerts in Switzerland, Germany and Austria - fast and easy""")
 
-st.write("Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
+st.write("📍 Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
@@ -33,16 +33,16 @@ with col4:
     ) #here we can select the country which will be implemented into the api
 
 options = st.multiselect(
-    "What genre are you looking for?",
+    "🎧 What genre are you looking for?",
     ["Pop", "Rock", "Hip-Hop / Rap", "R&B", "Jazz", "Blues", "Classical", "Electronic / EDM", "House", "Techno", "Reggae", "Country", "Metal", "Punk", "Soul", "Funk", "Disco", "Folk", "Latin", "Gospel"],
     default=["Pop", "Rock"],
 )
 
 col5, col6 = st.columns(2)
 with col5:
-    search = st.button("Search in City") #thats just the button to start the process/search
+    search = st.button("🔎 Search in City") #thats just the button to start the process/search
 with col6:
-    look = st.button("Search Artist")
+    look = st.button("🎤 Search Artist")
 
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
@@ -130,7 +130,7 @@ if concerts.empty:
 else:
     st.success(f"🎉 {len(concerts)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
 
-    st.subheader("Concerts found") #this is just a small text that concerts were found
+    st.subheader("🎵 Concerts found") #this is just a small text that concerts were found
     display_df = concerts.copy()  
         
     if "url" in display_df.columns:
@@ -156,7 +156,7 @@ else:
 
     map_df = concerts.dropna(subset=["lat", "lon"]) 
     if not map_df.empty:
-        st.subheader("Map of Concerts")
+        st.subheader("🗺️ Map of Concerts")
         m = folium.Map(location=[map_df["lat"].mean(), map_df["lon"].mean()], zoom_start=10) #here we center the map around the average coordinates
         marker_cluster = MarkerCluster().add_to(m) #here we cluster nerby markers
 
