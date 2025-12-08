@@ -17,6 +17,8 @@ st.set_page_config(page_title="Concert findings", layout="wide")
 st.title("🎵✨ Find Your Next Concert!")
 st.markdown("""Discover upcoming concerts near you - by city, genre, or your favorite artists.""")
 
+st.divider()
+
 st.write("📍 Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they wanna find the Concert in
 
 col1, col2, col3, col4 = st.columns(4)
@@ -31,6 +33,8 @@ with col4:
     "What country would you want to search in?",
     ("DE", "AT", "CH"),
     ) #here we can select the country which will be implemented into the api
+
+st.divider
 
 options = st.multiselect(
     "🎧 What genre are you looking for?",
@@ -156,6 +160,7 @@ else:
 
     map_df = concerts.dropna(subset=["lat", "lon"]) 
     if not map_df.empty:
+        st.divider()
         st.subheader("🗺️ Map of Concerts")
         m = folium.Map(location=[map_df["lat"].mean(), map_df["lon"].mean()], zoom_start=10) #here we center the map around the average coordinates
         marker_cluster = MarkerCluster().add_to(m) #here we cluster nerby markers
