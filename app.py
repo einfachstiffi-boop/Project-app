@@ -19,6 +19,7 @@ st.markdown("""Discover upcoming concerts near you - by city, genre, or your fav
 
 st.divider()
 
+#User Inputs
 st.write("📍 Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they want to find the concert in
 
 col1, col2, col3, col4 = st.columns(4)
@@ -47,7 +48,8 @@ with col5:
     search = st.button("🔎 Search in City") #thats just the button to start the process/search
 with col6:
     look = st.button("🎤 Search Artist") 
-
+    
+#Functions to get the concerts from the ticketmaster API
 def get_concerts_from_ticketmaster(city: str, start: date):
     params = {
         "apikey": API_KEY,
@@ -119,7 +121,7 @@ def get_concerts_from_ticketmaster(city: str, start: date):
 
     return df   #here we sort the concerts by date and time so the user knows which concerts are first 
 
-
+#Search
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     with st.spinner("Searching for concerts..."):
         st.session_state['concerts'] = get_concerts_from_ticketmaster(city.strip(), start_date) #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
@@ -156,8 +158,9 @@ else:
             for col in display_df.columns
         ]
 
-    st.dataframe (display_df.style.apply(highlight_today, axis=1))
-
+    st.dataframe (display_df.style.apply(highlight_today, axis=1)) #here we set up a definition which highlight today's date in the dataframe/table
+    
+#Map Display
     map_df = concerts.dropna(subset=["lat", "lon"]) 
     if not map_df.empty:
         st.divider()
