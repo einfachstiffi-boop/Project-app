@@ -161,19 +161,23 @@ else:
         marker_cluster = MarkerCluster().add_to(m) #here we cluster nerby markers
 
         for idx, row in map_df.iterrows():
+            
             popup_html = f"""
-            <b>{row['name']}</b><br>
-            📍 {row['venue']}, {row['city']}<br>
-             📅 {row['date']} {row['time']}<br>
-             {'<a href="' + row['url'] + '" target="_blank">🎟️ Tickets</a>' if row.get('url') else ''} 
+            <div style="width:200px; text-align:center;">
+                <b>{row['name']}</b><br>
+                📍 {row['venue']}, {row['city']}<br>
+                 📅 {row['date']} {row['time']}<br>
+                 {f'<a href="{row["url"]}" target="_blank" style ="text-decoration:none; font-weight:boldy;">🎟️ Get Tickets</a>' if row.get('url') else ''} 
+            </div>
             """ #here we create the content that will appear when you click on the marker
+            
             folium.Marker(
                 location = [row["lat"], row["lon"]],
                 popup = popup_html,
                 icon=folium.Icon(color = 'blue', icon = 'music', prefix = 'fa')
             ).add_to(marker_cluster) #here we create the folium marker 
                 
-        st_folium(m, height=500)
+        st_folium(m, height=500, width="100%")
            
     else:
         st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
