@@ -21,6 +21,18 @@ st.markdown("""Discover upcoming concerts near you - by city, genre, or your fav
 
 st.divider()
 
+st.subheader("Tell us about your music taste")
+
+energy = st.slider ("How energetic should the music be?", 0, 100, 60)
+
+danceability = st.slider ("Do you like music you can dance to?", 0, 100, 70)
+
+valence = st.slider ("Do you prefer happy or sad music?", 0, 100, 50)
+
+acoustic = st.slider("How acoustic should the music feel?", 0, 100, 30)
+
+st.divider()
+
 #User Inputs
 st.write("📍 Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they want to find the concert in
 
