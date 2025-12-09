@@ -190,7 +190,7 @@ else:
     else:
         st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
 
-def get_artists_from_ticketmaster(artist: str, start: date):
+def artists_API(artist: str, start: date):
     params = {
         "apikey": API_KEY,
         "countryCode": option,
