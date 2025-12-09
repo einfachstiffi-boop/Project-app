@@ -35,7 +35,7 @@ ml_features = pd.DataFrame([{
     "acousticness": acoustic
 }])
 
-genrebin = 
+genre_bin = 
 
 st.divider()
 
