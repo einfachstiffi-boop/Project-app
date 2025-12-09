@@ -5,6 +5,6 @@ streamlit-folium
 matplotlib
 requests
 joblib
-sklearn
+scikit-learn
 mlcroissant
 numpy
