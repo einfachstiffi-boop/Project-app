@@ -40,14 +40,12 @@ st.divider()
 #User Inputs
 st.write("📍 Tell us the city you want to find a concert in!")    #This is a command for the User to insert the name of the city where they want to find the concert in
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 with col1:
-    city = st.text_input("Insert the city here.") #here is the input field for the city name
+    city = st.text_input("Insert the city here.") #here is the input field for the city name 
 with col2:
-    artist = st.text_input("Insert the Artist here") #here is the input field for the artist
-with col3:
     start_date = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for which the user wants to find ongoing concerts
-with col4:
+with col3:
     option = st.selectbox(
     "What country would you want to search in?",
     ("DE", "AT", "CH"),
@@ -55,17 +53,10 @@ with col4:
 
 st.divider()
 
-options = st.multiselect(
-    "🎧 What genre are you looking for?",
-    ["Pop", "Rock", "Hip-Hop / Rap", "R&B", "Jazz", "Blues", "Classical", "Electronic / EDM", "House", "Techno", "Reggae", "Country", "Metal", "Punk", "Soul", "Funk", "Disco", "Folk", "Latin", "Gospel"],
-    default=["Pop", "Rock"],
-) #here the user can select multiple music genres they are interested in. Pop and rock are used as default music genres
+ #here the user can select multiple music genres they are interested in. Pop and rock are used as default music genres
 
-col5, col6 = st.columns(2)
-with col5:
-    search = st.button("🔎 Search in City") #thats just the button to start the process/search
-with col6:
-    look = st.button("🎤 Search Artist") 
+search = st.button("🔎 Search in City") #thats just the button to start the process/search
+
     
 #Functions to get the concerts from the ticketmaster API
 def concerts_API(city: str, start: date):
