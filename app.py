@@ -67,7 +67,7 @@ def concerts_API(city: str, start: date):
         "countryCode": option,
         "classificationName": "Music",
         "size": 100,
-        "genre": user_genres,
+        "genreId": user_genres,
         "city": city,
         "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),   #here we def a function so we can request the right information from Ticketmaster for example we clarify music so its concert based and CH so its only for Switzerland also we limit the concerts to 100
     }
@@ -91,11 +91,19 @@ def concerts_API(city: str, start: date):
         local_date = start_info.get("localDate")
         local_time = start_info.get("localTime")  #here we start getting the information we need to display like name, dates and the date and time it starts
 
-        venue_name = None  
+        venue_name = None 
+        genre_name = None
         city_name = None
         lat = None
-        lon = None   #here we define variables so we can display the venue name, and latitude and longitude for the coordinates we need for the display in the map later on
+        lon = None  #here we define variables so we can display the venue name, and latitude and longitude for the coordinates we need for the display in the map later on
 
+        genres = ev.get("genres", [])
+        if genres:
+            g = genres[0]
+            genre = c.get("genre") or {}
+            genre_name = genre.get("name")
+
+        
         embedded = ev.get("_embedded", {})
         venues = embedded.get("venues", [])
         if venues:
@@ -114,6 +122,7 @@ def concerts_API(city: str, start: date):
                 "date": local_date,
                 "time": local_time,
                 "city": city_name,
+                "genre": genre_name,
                 "venue": venue_name,
                 "lat": float(lat) if lat is not None else None,
                 "lon": float(lon) if lon is not None else None,
@@ -131,8 +140,9 @@ def concerts_API(city: str, start: date):
     df = df.reset_index(drop=True)
     df["id"] = df.index
 
-    return df   #here we sort the concerts by date and time so the user knows which concerts are first 
+    return df 
 
+      
 #Search
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     with st.spinner("Searching for concerts..."):
