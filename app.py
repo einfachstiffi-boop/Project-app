@@ -50,7 +50,7 @@ with col6:
     look = st.button("🎤 Search Artist") 
     
 #Functions to get the concerts from the ticketmaster API
-def get_concerts_from_ticketmaster(city: str, start: date):
+def concerts_API(city: str, start: date):
     params = {
         "apikey": API_KEY,
         "countryCode": option,
@@ -124,7 +124,7 @@ def get_concerts_from_ticketmaster(city: str, start: date):
 #Search
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     with st.spinner("Searching for concerts..."):
-        st.session_state['concerts'] = get_concerts_from_ticketmaster(city.strip(), start_date) #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
+        st.session_state['concerts'] = concerts_API(city.strip(), start_date) #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
 concerts = st.session_state.get('concerts', pd.DataFrame())
 
