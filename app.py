@@ -35,6 +35,8 @@ ml_features = pd.DataFrame([{
     "acousticness": acoustic
 }])
 
+genrebin = 
+
 st.divider()
 
 #User Inputs
@@ -65,6 +67,7 @@ def concerts_API(city: str, start: date):
         "countryCode": option,
         "classificationName": "Music",
         "size": 100,
+        "genre": user_genres,
         "city": city,
         "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),   #here we def a function so we can request the right information from Ticketmaster for example we clarify music so its concert based and CH so its only for Switzerland also we limit the concerts to 100
     }
