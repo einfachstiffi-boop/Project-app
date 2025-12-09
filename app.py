@@ -4,6 +4,7 @@ import folium
 from streamlit_folium import st_folium
 import matplotlib.pyplot as plt
 import random
+import joblib
 import requests 
 from datetime import date
 from folium.plugins import MarkerCluster
@@ -12,6 +13,7 @@ from folium.plugins import MarkerCluster
 API_KEY = "0ASKD9hz3j4tj0pfBUULLIoe52liTcZf"
 BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"   #Thats the API key thats being requested including the ticketmaster url with all the concert information
 
+model = joblib.load("model.pkl")
 
 st.set_page_config(page_title="Concert findings", layout="wide")
 st.title("🎵✨ Find Your Next Concert!")
