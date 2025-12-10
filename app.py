@@ -46,7 +46,7 @@ ml_features = pd.DataFrame([{
 
 #predicted_bin = model.predict(ml_features)[0]
 
-predicted_bin = ("rock", "jazz")
+predicted_bin = st.text_input("genre")
 
 st.divider()
 
