@@ -108,9 +108,9 @@ def concerts_API(city: str, start: date, predicted_bin):
         lat = None
         lon = None  #here we define variables so we can display the venue name, and latitude and longitude for the coordinates we need for the display in the map later on
 
-        genres = ev.get("genres", [])
-        if genres:
-            g = genres[0]
+        classifications = ev.get("classifications", [])
+        if classifications:
+            c = classifications[0]
             genre = c.get("genre") or {}
             genre_name = genre.get("name")
 
