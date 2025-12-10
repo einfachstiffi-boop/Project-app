@@ -68,13 +68,13 @@ search = st.button("🔎 Search in City") #thats just the button to start the pr
 
     
 #Functions to get the concerts from the ticketmaster API
-def concerts_API(city: str, start: date):
+def concerts_API(city: str, start: date, predicted_bin):
     params = {
         "apikey": API_KEY,
         "countryCode": option,
         "classificationName": "Music",
         "size": 100,
-        "genreId": genre_bin,
+        "genreId": predicted_bin,
         "city": city,
         "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),   #here we def a function so we can request the right information from Ticketmaster for example we clarify music so its concert based and CH so its only for Switzerland also we limit the concerts to 100
     }
@@ -153,7 +153,8 @@ def concerts_API(city: str, start: date):
 #Search
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     with st.spinner("Searching for concerts..."):
-        st.session_state['concerts'] = concerts_API(city.strip(), start_date) #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
+        st.session_state['concerts'] = concerts_API(city.strip(), start_date, predicted_bin)
+ #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
 concerts = st.session_state.get('concerts', pd.DataFrame())
 
