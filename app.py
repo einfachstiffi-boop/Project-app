@@ -35,9 +35,13 @@ acousticness = st.slider("acousticness", 0.0, 1.0, 0.3)
 
 ml_features = pd.DataFrame([{
     "energy": energy,
+    "tempo": tempo,
     "danceability": danceability,
-    "valence": valence,
-    "acousticness": acoustic
+    "loudness": loudness,
+    "time_signature": time_signature,
+    "speechiness": speechiness,
+    "track_popularity": track_popularity,
+    "acousticness": acousticness
 }])
 
 st.divider()
