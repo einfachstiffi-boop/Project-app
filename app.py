@@ -23,10 +23,14 @@ st.divider()
 
 st.subheader("Tell us about your music taste")
 
-energy = st.slider ("How energetic should the music be?", 0, 100, 60)
-danceability = st.slider ("Do you like music you can dance to?", 0, 100, 70)
-valence = st.slider ("Do you prefer happy or sad music?", 0, 100, 50)
-acoustic = st.slider("How acoustic should the music feel?", 0, 100, 30)
+energy = st.slider("energy", 0.0, 1.0, 0.5)
+tempo = st.slider("tempo", 40.0, 220.0, 120.0)
+danceability = st.slider("danceability", 0.0, 1.0, 0.5)
+loudness = st.slider("loudness", -60.0, 0.0, -8.0)
+time_signature = st.slider("time_signature", 1, 7, 4)
+speechiness = st.slider("speechiness", 0.0, 1.0, 0.05)
+track_popularity = st.slider("track_popularity", 0, 100, 50)
+acousticness = st.slider("acousticness", 0.0, 1.0, 0.3)
 
 ml_features = pd.DataFrame([{
     "energy": energy,
