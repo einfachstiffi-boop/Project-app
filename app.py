@@ -46,6 +46,7 @@ ml_features = pd.DataFrame([{
 
 predicted_bin = model.predict(ml_features)[0]
 
+
 st.divider()
 
 #User Inputs
@@ -87,34 +88,29 @@ bin4 = [
 ] #here we define the bins again as in the machine learnig model
 
 BIN_KEYWORDS = {
-    "bin1": ["KnvZfZ7vAvF"],
-    "bin2": ["KnvZfZ7vAvF"],
-    "bin3": ["KnvZfZ7vAvF"],
-    "bin4": ["KnvZfZ7vAvF"]
+    "bin1": ["pop", "latin", "hip-hop", "r&b", "afrobeats"],
+    "bin2": ["jazz", "classical", "folk", "indie", "ambient"],
+    "bin3": ["electronic", "techno", "edm", "house", "trance"],
+    "bin4": ["rock", "metal", "punk", "alternative"]
 }
+
 
 genre_id = "KnvZfZ7vAvF"
 
-def concerts_API(city: str, start: date, predicted_bin ):
+def concerts_API(city: str, start: date, predicted_bin):
 
-    # TEMP: hard-code POP to test Ticketmaster
-     # POP genreId
+    # Always work in DE/AT/CH because genreId is broken, so we use keyword searching only
+    keywords = BIN_KEYWORDS.get(predicted_bin, ["concert"])
 
     params = {
         "apikey": API_KEY,
         "countryCode": option,
         "classificationName": "Music",
         "size": 100,
-        "genreId": genre_id,
         "city": city,
+        "keyword": " ".join(keywords),     # <-- THIS IS THE IMPORTANT FILTER
         "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),
     }
-
-    # Add keyword expansion if your ML model predicts a bin
-    if predicted_bin:
-        keywords = BIN_KEYWORDS.get(predicted_bin, [])
-        if keywords:
-            params["keyword"] = " ".join(keywords)
 
     resp = requests.get(BASE_URL, params=params)
     if resp.status_code != 200:
@@ -178,11 +174,13 @@ def concerts_API(city: str, start: date, predicted_bin ):
     return df
 
 
+
       
 #Search
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     with st.spinner("Searching for concerts..."):
-        st.session_state['concerts'] = concerts_API(city.strip(), start_date, predicted_bin)
+        st.session_state['concerts'] = concerts_API(city.strip(), start_date, genre_id)
+
  #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
 concerts = st.session_state.get('concerts', pd.DataFrame())
