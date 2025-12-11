@@ -205,6 +205,8 @@ else:
             "Ticket-Link": st.column_config.LinkColumn(
                 "Ticket Link",
                 display_text="Ticket Link",
+            )
+        }
         display_df = display_df[["name", "genre", "date", "time", "venue", "city", "Ticket-Link"]] #these are the columns in the table from the rows we defined before
     else:
         display_df = display_df[["name", "genre", "date", "time", "venue", "city"]] #if there is no url available than theres no ticket link
