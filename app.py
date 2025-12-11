@@ -87,10 +87,10 @@ bin4 = [
 ] #here we define the bins again as in the machine learnig model
 
 BIN_KEYWORDS = {
-    "bin1": ["pop", "latin", "hip-hop", "r&b", "afrobeats"],
-    "bin2": ["jazz", "classical", "folk", "indie", "ambient"],
-    "bin3": ["electronic", "techno", "edm", "house", "trance"],
-    "bin4": ["rock", "metal", "punk", "alternative"]
+    "bin1": ["KnvZfZ7vAvF"],
+    "bin2": ["KnvZfZ7vAvF"],
+    "bin3": ["KnvZfZ7vAvF"],
+    "bin4": ["KnvZfZ7vAvF"]
 }
 
 genre_id = "KnvZfZ7vAvF"
