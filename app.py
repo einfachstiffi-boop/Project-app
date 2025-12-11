@@ -17,7 +17,7 @@ model = joblib.load("model.pkl")
 
 st.set_page_config(page_title="Concert findings", layout="wide")
 st.title("🎵✨ Find Your Next Concert!")
-st.markdown("""Discover upcoming concerts near you - by city, genre, or your favorite artists.""") #This is the title and the subtitle of our app
+st.markdown("""Discover concerts fitting your personal preference and music taste.""") #This is the title and the subtitle of our app
 
 st.divider()
 
