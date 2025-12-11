@@ -95,7 +95,7 @@ BIN_KEYWORDS = {
 
 genre_id = "KnvZfZ7vAv1"
 
-def concerts_API(city: str, start: date):
+def concerts_API(city: str, start: date, predicted_bin):
 
     # TEMP: hard-code POP to test Ticketmaster
      # POP genreId
@@ -111,10 +111,10 @@ def concerts_API(city: str, start: date):
     }
 
     # Add keyword expansion if your ML model predicts a bin
-    #if predicted_bin:
-        #keywords = BIN_KEYWORDS.get(predicted_bin, [])
-        #if keywords:
-            #params["keyword"] = " ".join(keywords)
+    if predicted_bin:
+        keywords = BIN_KEYWORDS.get(predicted_bin, [])
+        if keywords:
+            params["keyword"] = " ".join(keywords)
 
     resp = requests.get(BASE_URL, params=params)
     if resp.status_code != 200:
@@ -182,7 +182,7 @@ def concerts_API(city: str, start: date):
 #Search
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     with st.spinner("Searching for concerts..."):
-        st.session_state['concerts'] = concerts_API(city.strip(), start_date)
+        st.session_state['concerts'] = concerts_API(city.strip(), start_date, predicted_bin)
  #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
 concerts = st.session_state.get('concerts', pd.DataFrame())
