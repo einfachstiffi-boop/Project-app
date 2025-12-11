@@ -97,7 +97,7 @@ BIN_KEYWORDS = {
 def concerts_API(city: str, start: date, predicted_bin):
 
     # TEMP: hard-code POP to test Ticketmaster
-    genre_id = "KnvZfZ7vAvF"  # POP genreId
+    genre_id = "pop"  # POP genreId
 
     params = {
         "apikey": API_KEY,
