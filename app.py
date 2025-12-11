@@ -200,7 +200,17 @@ else:
     display_df = concerts.copy()  
         
     if "url" in display_df.columns:
-        display_df["Ticket-Link"] = display_df["url"]  #here we just display the url in the table as the ticket link
+        display_df["Ticket-Link"] = display_df["url"] #here we just display the url in the table as the ticket link
+        st.dataframe(
+            display_df,
+            column_config={
+                "Ticket-Link": st.column:config.LinkColumn(
+                    "Ticket Link",
+                     display_text = "Open Event"
+        )
+        }
+        )
+
         display_df = display_df[["name", "genre", "date", "time", "venue", "city", "Ticket-Link"]] #these are the columns in the table from the rows we defined before
     else:
         display_df = display_df[["name", "genre", "date", "time", "venue", "city"]] #if there is no url available than theres no ticket link
