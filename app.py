@@ -204,11 +204,11 @@ else:
         st.dataframe(
             display_df,
             column_config={
-                "Ticket-Link": st.column:config.LinkColumn(
+                "Ticket-Link": st.column_config.LinkColumn(
                     "Ticket Link",
                      display_text = "Open Event"
-        )
-        }
+                )
+            }
         )
 
         display_df = display_df[["name", "genre", "date", "time", "venue", "city", "Ticket-Link"]] #these are the columns in the table from the rows we defined before
