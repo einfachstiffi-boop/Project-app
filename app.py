@@ -86,10 +86,11 @@ bin4 = [
 ] 
 
 BIN_KEYWORDS = {
-    "bin1": ["pop", "latin", "hip-hop", "r&b", "afrobeats"],
-    "bin2": ["jazz", "classical", "folk", "indie", "ambient"],
-    "bin3": ["electronic", "techno", "edm", "house", "trance"],
-    "bin4": ["rock", "metal", "punk", "alternative"]
+    "bin1": ['Hip-Hop/Rap','Pop','Reggae','Dance','R&B'],
+    "bin2": ['Blues','Country'],
+    "bin3": ['Jazz','Miscellaneous Theatre','Theatre','Alternative','Classical','Fairs & Festivals',],
+    "bin4": ['Hockey',  'Undefined','Metal','Dance/Electronic','Miscellaneous','Other',
+    'Rock',]
 }
  
 
