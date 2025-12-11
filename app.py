@@ -104,7 +104,7 @@ def concerts_API(city: str, start: date, predicted_bin):
         "bin4": "pop",   # Latin
     }
 
-    genre_id = tm_genres.get(predicted_bin, None)
+    genre_id = "KnvZfZ7vAvF"  # POP
 
     params = {
         "apikey": API_KEY,
