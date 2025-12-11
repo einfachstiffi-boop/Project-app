@@ -191,7 +191,6 @@ concerts = st.session_state.get('concerts', pd.DataFrame())
 
 if concerts.empty:
     if search:
-        st.write("🔍 Predicted bin from model:", predicted_bin)
         st.warning(f"🙁 No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
     else:
         st.info("Insert your desired city and press **Search**.")
