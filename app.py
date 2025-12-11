@@ -111,10 +111,10 @@ def concerts_API(city: str, start: date, predicted_bin):
     }
 
     # Add keyword expansion if your ML model predicts a bin
-    if predicted_bin:
-        keywords = BIN_KEYWORDS.get(predicted_bin, [])
-        if keywords:
-            params["keyword"] = " ".join(keywords)
+    #if predicted_bin:
+     #   keywords = BIN_KEYWORDS.get(predicted_bin, [])
+     #   if keywords:
+      #      params["keyword"] = " ".join(keywords)
 
     resp = requests.get(BASE_URL, params=params)
     if resp.status_code != 200:
