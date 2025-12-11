@@ -13,7 +13,7 @@ from folium.plugins import MarkerCluster
 API_KEY = "0ASKD9hz3j4tj0pfBUULLIoe52liTcZf"
 BASE_URL = "https://app.ticketmaster.com/discovery/v2/events.json"   #Thats the API key thats being requested including the ticketmaster url with all the concert information
 
-model = joblib.load("model-2.pkl")
+model = joblib.load("/content/model.pkl")
 
 st.set_page_config(page_title="Concert findings", layout="wide")
 st.title("🎵✨ Find Your Next Concert!")
@@ -85,19 +85,16 @@ bin4 = [
     'Rock',
 ] 
 
-BIN_KEYWORDS = {
-    "bin1": ['Hip-Hop/Rap','Pop','Reggae','Dance','R&B'],
-    "bin2": ['Blues','Country'],
-    "bin3": ['Jazz','Miscellaneous Theatre','Theatre','Alternative','Classical','Fairs & Festivals',],
-    "bin4": ['Hockey',  'Undefined','Metal','Dance/Electronic','Miscellaneous','Other',
-    'Rock',]
-}
- 
 
-def concerts_API(city: str, start: date, predicted_bin, option:str):
-
-    # Always work in DE/AT/CH because genreId is broken, so we use keyword searching only
-    keywords = BIN_KEYWORDS.get(predicted_bin, ["concert"])
+def map_event_to_bin(genre):
+    if genre in bin1:
+        return "bin1"
+    if genre in bin2:
+        return "bin2"
+    if genre in bin3:
+        return "bin3"
+    return "bin4"
+def concerts_API(city: str, start: date, predicted_bin, option: str):
 
     params = {
         "apikey": API_KEY,
@@ -105,8 +102,7 @@ def concerts_API(city: str, start: date, predicted_bin, option:str):
         "classificationName": "Music",
         "size": 100,
         "city": city,
-        "keyword": " ".join(keywords),     # <-- THIS IS THE IMPORTANT FILTER
-        "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),
+        "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z")
     }
 
     resp = requests.get(BASE_URL, params=params)
@@ -126,18 +122,17 @@ def concerts_API(city: str, start: date, predicted_bin, option:str):
         local_date = start_info.get("localDate")
         local_time = start_info.get("localTime")
 
-        venue_name = None
-        genre_name = None
-        city_name = None
-        lat = None
-        lon = None
-
         classifications = ev.get("classifications", [])
+        genre_name = None
         if classifications:
             genre = classifications[0].get("genre") or {}
             genre_name = genre.get("name")
 
         venues = ev.get("_embedded", {}).get("venues", [])
+        venue_name = None
+        city_name = None
+        lat = None
+        lon = None
         if venues:
             v = venues[0]
             venue_name = v.get("name")
@@ -161,6 +156,10 @@ def concerts_API(city: str, start: date, predicted_bin, option:str):
         })
 
     df = pd.DataFrame(rows)
+
+    df["event_bin"] = df["genre"].apply(map_event_to_bin)
+    df = df[df["event_bin"] == predicted_bin]
+
     if "date" in df.columns:
         df["date"] = pd.to_datetime(df["date"]).dt.date
 
@@ -169,6 +168,7 @@ def concerts_API(city: str, start: date, predicted_bin, option:str):
     df["id"] = df.index
 
     return df
+
 
 
 
@@ -192,7 +192,7 @@ if concerts.empty:
     if search:
         st.warning(f"🙁 No concerts from {start_date} in {city} found.") #when there are no events it will be displayed that there are no events in this city/at that time
     else:
-        st.info("Insert your desired city and press **Search**.")
+        st.info("Insert your desired city and press *Search*.")
 else:
     st.success(f"🎉 {len(concerts)} Concerts found in {city}!")  #if there are concerts it will be displayed that concerts were found
 
@@ -248,7 +248,4 @@ else:
         st_folium(m, height=500, width="100%")
            
     else:
-        st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show
-
-
-                         
+        st.info("For these events there is no map avaiable.")  #if this information is not available theres just not a map displayed and this text will show             
