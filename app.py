@@ -44,7 +44,7 @@ ml_features = pd.DataFrame([{
     "acousticness": acousticness
 }])
 
-predicted_bin = model.predict(ml_features)[0]
+#predicted_bin = model.predict(ml_features)[0]
 
 st.divider()
 
