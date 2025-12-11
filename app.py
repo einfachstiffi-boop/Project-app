@@ -94,15 +94,25 @@ BIN_KEYWORDS = {
 } #here we make a small library for the bins to use them for the API later
 
 
-
 def concerts_API(city: str, start: date, predicted_bin):
+
+    tm_genres = {
+        "bin1": "KnvZfZ7vAvF",   # Pop
+        "bin2": "KnvZfZ7vAeJ",   # Hip-Hop
+        "bin3": "KnvZfZ7vAeA",   # Rock
+        "bin4": "KnvZfZ7vAv1",   # Latin
+    }
+
+    genre_id = tm_genres.get(predicted_bin, None)
+
     params = {
         "apikey": API_KEY,
         "countryCode": option,
         "classificationName": "Music",
         "size": 100,
+        "genreId": genre_id,
         "city": city,
-        "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),   #here we def a function so we can request the right information from Ticketmaster for example we clarify music so its concert based and CH so its only for Switzerland also we limit the concerts to 100
+        "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),
     }
 
     if predicted_bin:
