@@ -93,7 +93,8 @@ BIN_KEYWORDS = {
     "bin4": bin4,
 } #here we make a small library for the bins to use them for the API later
 
-genre_id = "KnvZfZ7vAeA"
+genre_id = "KnvZfZ7vAvE"
+
 def concerts_API(city: str, start: date):
 
     # TEMP: hard-code POP to test Ticketmaster
