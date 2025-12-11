@@ -68,30 +68,30 @@ st.divider()
 
 search = st.button("🔎 Search in City") #thats just the button to start the process/search
 
-bin1 = [
-    'afrobeats', 'arabic', 'brazilian', 'gaming', 'hip-hop', 'k-pop',
-    'latin', 'pop', 'r&b', 'reggae'
-]
+#bin1 = [
+#    'afrobeats', 'arabic', 'brazilian', 'gaming', 'hip-hop', 'k-pop',
+#    'latin', 'pop', 'r&b', 'reggae'
+#]
 
-bin2 = [
-    'ambient', 'blues', 'folk', 'indian', 'indie', 'korean', 'soul'
-]
+#bin2 = [
+#    'ambient', 'blues', 'folk', 'indian', 'indie', 'korean', 'soul'
+#]
 
-bin3 = [
-    'classical', 'jazz', 'lofi'
-]
+#bin3 = [
+ #   'classical', 'jazz', 'lofi'
+#]
 
-bin4 = [
-    'country', 'electronic', 'j-pop', 'metal', 'punk', 'rock',
-    'turkish', 'world'
-] #here we define the bins again as in the machine learnig model
+#bin4 = [
+ #   'country', 'electronic', 'j-pop', 'metal', 'punk', 'rock',
+  #  'turkish', 'world'
+#] #here we define the bins again as in the machine learnig model
 
-BIN_KEYWORDS = {
-    "bin1": bin1,
-    "bin2": bin2,
-    "bin3": bin3,
-    "bin4": bin4,
-} #here we make a small library for the bins to use them for the API later
+#BIN_KEYWORDS = {
+#    "bin1": bin1,
+#    "bin2": bin2,
+#    "bin3": bin3,
+#    "bin4": bin4,
+#} #here we make a small library for the bins to use them for the API later
 
 genre_id = "pop"
 
