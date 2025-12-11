@@ -68,7 +68,32 @@ st.divider()
 
 search = st.button("🔎 Search in City") #thats just the button to start the process/search
 
-    
+bin1 = [
+    'afrobeats', 'arabic', 'brazilian', 'gaming', 'hip-hop', 'k-pop',
+    'latin', 'pop', 'r&b', 'reggae'
+]
+
+bin2 = [
+    'ambient', 'blues', 'folk', 'indian', 'indie', 'korean', 'soul'
+]
+
+bin3 = [
+    'classical', 'jazz', 'lofi'
+]
+
+bin4 = [
+    'country', 'electronic', 'j-pop', 'metal', 'punk', 'rock',
+    'turkish', 'world'
+]
+
+BIN_KEYWORDS = {
+    "bin1": bin1,
+    "bin2": bin2,
+    "bin3": bin3,
+    "bin4": bin4,
+}
+
+
 #Functions to get the concerts from the ticketmaster API
 def concerts_API(city: str, start: date, predicted_bin):
     params = {
@@ -76,10 +101,14 @@ def concerts_API(city: str, start: date, predicted_bin):
         "countryCode": option,
         "classificationName": "Music",
         "size": 100,
-        "genreId": predicted_bin,
         "city": city,
         "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),   #here we def a function so we can request the right information from Ticketmaster for example we clarify music so its concert based and CH so its only for Switzerland also we limit the concerts to 100
     }
+
+    if predicted_bin:
+        keywords = BIN_KEYWORDS.get(predicted_bin, [])
+        if keywords:
+            params["keyword"] = " ".join(keywords)
 
     resp = requests.get(BASE_URL, params=params)
     if resp.status_code != 200:
