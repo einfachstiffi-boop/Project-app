@@ -65,7 +65,6 @@ with col3:
 
 st.divider()
 
- #here the user can select multiple music genres they are interested in. Pop and rock are used as default music genres
 
 search = st.button("🔎 Search in City") #thats just the button to start the process/search
 
@@ -85,7 +84,7 @@ bin3 = [
 bin4 = [
     'country', 'electronic', 'j-pop', 'metal', 'punk', 'rock',
   'turkish', 'world'
-] #here we define the bins again as in the machine learnig model
+] 
 
 BIN_KEYWORDS = {
     "bin1": ["pop", "latin", "hip-hop", "r&b", "afrobeats"],
@@ -95,7 +94,7 @@ BIN_KEYWORDS = {
 }
 
 
-genre_id = "pop"
+genre_id = predicted_bin
 
 def concerts_API(city: str, start: date, predicted_bin):
 
