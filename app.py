@@ -84,17 +84,17 @@ bin3 = [
 bin4 = [
     'country', 'electronic', 'j-pop', 'metal', 'punk', 'rock',
     'turkish', 'world'
-]
+] #here we define the bins again as in the machine learnig model
 
 BIN_KEYWORDS = {
     "bin1": bin1,
     "bin2": bin2,
     "bin3": bin3,
     "bin4": bin4,
-}
+} #here we make a small library for the bins to use them for the API later
 
 
-#Functions to get the concerts from the ticketmaster API
+
 def concerts_API(city: str, start: date, predicted_bin):
     params = {
         "apikey": API_KEY,
@@ -106,9 +106,9 @@ def concerts_API(city: str, start: date, predicted_bin):
     }
 
     if predicted_bin:
-        keywords = BIN_KEYWORDS.get(predicted_bin, [])
+        keywords = BIN_KEYWORDS.get(predicted_bin, []) #here we make make sure that if the machine learning model gives a genre bin we convert it to our own library to better use it and then convert it to keywords
         if keywords:
-            params["keyword"] = " ".join(keywords)
+            params["keyword"] = " ".join(keywords) #so now that we converted the genre bin the machine learning model gave us we put it togethere into one string for the API to use for the parameters
 
     resp = requests.get(BASE_URL, params=params)
     if resp.status_code != 200:
@@ -139,7 +139,7 @@ def concerts_API(city: str, start: date, predicted_bin):
         if classifications:
             c = classifications[0]
             genre = c.get("genre") or {}
-            genre_name = genre.get("name")
+            genre_name = genre.get("name") #here we get the genre names from ticketmaster 
 
         
         embedded = ev.get("_embedded", {})
@@ -176,7 +176,7 @@ def concerts_API(city: str, start: date, predicted_bin):
     df = df.sort_values(by=["date", "time"], ascending=True)
 
     df = df.reset_index(drop=True)
-    df["id"] = df.index
+    df["id"] = df.index #this here just sorts the events with date and time correctly
 
     return df 
 
