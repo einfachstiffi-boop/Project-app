@@ -23,14 +23,14 @@ st.divider()
 
 st.subheader("Tell us about your music taste")
 
-energy = st.slider("energy", 0.0, 1.0, 0.5)
-tempo = st.slider("tempo", 40.0, 220.0, 120.0)
-danceability = st.slider("danceability", 0.0, 1.0, 0.5)
-loudness = st.slider("loudness", -60.0, 0.0, -8.0)
-time_signature = st.slider("time_signature", 1, 7, 4)
-speechiness = st.slider("speechiness", 0.0, 1.0, 0.05)
-track_popularity = st.slider("track_popularity", 0, 100, 50)
-acousticness = st.slider("acousticness", 0.0, 1.0, 0.3)
+energy = st.slider("ENERGY: this describes the how hyped up you want to be when listening to music", 0.0, 1.0, 0.5)
+tempo = st.slider("TEMPO: really selfexplanatory either fast paced or slow paced music", 40.0, 220.0, 120.0)
+danceability = st.slider("DANCEABILITY: just imagine your music taste in the Club and if the crowd would go crazy for it", 0.0, 1.0, 0.5)
+loudness = st.slider("LOUDNESS: really selfexplanatory as well", -60.0, 0.0, -8.0)
+time_signature = st.slider("TIME SIGNATURE: this is the beat pattern of a song", 1, 7, 4)
+speechiness = st.slider("SPEECHINESS: this describes how much is really spoken in this song or if its more musical", 0.0, 1.0, 0.05)
+track_popularity = st.slider("TRACK POPULARITY: just think about your music taste and if its more mainstream or more underground", 0, 100, 50)
+acousticness = st.slider("ACOUSTICNESS: this describes if your music taste uses more natural instruments than it would be more acoustic. Higher value = more acoustic", 0.0, 1.0, 0.3)
 
 
 ml_features = pd.DataFrame([{
