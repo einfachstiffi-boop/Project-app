@@ -225,7 +225,7 @@ else:
                 "Ticket Link",
             )
         }
-    )
+    ) #here we just show the result (table) and convert the URL to hyper links so they are clickable
     
 #Map Display
     map_df = concerts.dropna(subset=["lat", "lon"]) 
