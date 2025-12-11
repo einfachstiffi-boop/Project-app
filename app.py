@@ -69,21 +69,20 @@ st.divider()
 search = st.button("🔎 Search in City") #thats just the button to start the process/search
 
 bin1 = [
-    'afrobeats', 'arabic', 'brazilian', 'gaming', 'hip-hop', 'k-pop',
-    'latin', 'pop', 'r&b', 'reggae'
+'Hip-Hop/Rap','Pop','Reggae','Dance','R&B'
 ]
 
 bin2 = [
-    'ambient', 'blues', 'folk', 'indian', 'indie', 'korean', 'soul'
+    'Blues','Country'
 ]
 
 bin3 = [
-   'classical', 'jazz', 'lofi'
+'Jazz','Miscellaneous Theatre','Theatre','Alternative','Classical','Fairs & Festivals',
 ]
 
 bin4 = [
-    'country', 'electronic', 'j-pop', 'metal', 'punk', 'rock',
-  'turkish', 'world'
+'Hockey',  'Undefined','Metal','Dance/Electronic','Miscellaneous','Other',
+    'Rock',
 ] 
 
 BIN_KEYWORDS = {
