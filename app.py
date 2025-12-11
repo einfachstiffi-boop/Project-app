@@ -44,7 +44,7 @@ ml_features = pd.DataFrame([{
     "acousticness": acousticness
 }])
 
-#predicted_bin = model.predict(ml_features)[0]
+predicted_bin = model.predict(ml_features)[0]
 
 st.divider()
 
@@ -68,30 +68,30 @@ st.divider()
 
 search = st.button("🔎 Search in City") #thats just the button to start the process/search
 
-#bin1 = [
-#    'afrobeats', 'arabic', 'brazilian', 'gaming', 'hip-hop', 'k-pop',
-#    'latin', 'pop', 'r&b', 'reggae'
-#]
+bin1 = [
+    'afrobeats', 'arabic', 'brazilian', 'gaming', 'hip-hop', 'k-pop',
+    'latin', 'pop', 'r&b', 'reggae'
+]
 
-#bin2 = [
-#    'ambient', 'blues', 'folk', 'indian', 'indie', 'korean', 'soul'
-#]
+bin2 = [
+    'ambient', 'blues', 'folk', 'indian', 'indie', 'korean', 'soul'
+]
 
-#bin3 = [
- #   'classical', 'jazz', 'lofi'
-#]
+bin3 = [
+   'classical', 'jazz', 'lofi'
+]
 
-#bin4 = [
- #   'country', 'electronic', 'j-pop', 'metal', 'punk', 'rock',
-  #  'turkish', 'world'
-#] #here we define the bins again as in the machine learnig model
+bin4 = [
+    'country', 'electronic', 'j-pop', 'metal', 'punk', 'rock',
+  'turkish', 'world'
+] #here we define the bins again as in the machine learnig model
 
-#BIN_KEYWORDS = {
-#    "bin1": bin1,
-#    "bin2": bin2,
-#    "bin3": bin3,
-#    "bin4": bin4,
-#} #here we make a small library for the bins to use them for the API later
+BIN_KEYWORDS = {
+    "bin1": ["pop", "latin", "hip-hop", "r&b", "afrobeats"],
+    "bin2": ["jazz", "classical", "folk", "indie", "ambient"],
+    "bin3": ["electronic", "techno", "edm", "house", "trance"],
+    "bin4": ["rock", "metal", "punk", "alternative"]
+}
 
 genre_id = "KnvZfZ7vAvF"
 
@@ -111,10 +111,10 @@ def concerts_API(city: str, start: date, genre_id ):
     }
 
     # Add keyword expansion if your ML model predicts a bin
-    #if predicted_bin:
-     #   keywords = BIN_KEYWORDS.get(predicted_bin, [])
-     #   if keywords:
-      #      params["keyword"] = " ".join(keywords)
+    if predicted_bin:
+        keywords = BIN_KEYWORDS.get(predicted_bin, [])
+        if keywords:
+            params["keyword"] = " ".join(keywords)
 
     resp = requests.get(BASE_URL, params=params)
     if resp.status_code != 200:
