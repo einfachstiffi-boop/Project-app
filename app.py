@@ -182,7 +182,7 @@ def concerts_API(city: str, start: date, genre_id ):
 #Search
 if search and city.strip() != "": #here we validate that the city insert field is not empty else it will show the error message at the end of this code
     with st.spinner("Searching for concerts..."):
-        st.session_state['concerts'] = concerts_API(city.strip(), start_date, predicted_bin)
+        st.session_state['concerts'] = concerts_API(city.strip(), start_date, genre_id)
  #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
 
 concerts = st.session_state.get('concerts', pd.DataFrame())
