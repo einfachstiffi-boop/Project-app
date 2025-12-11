@@ -180,7 +180,8 @@ if search and city.strip() != "":
         st.session_state["concerts"] = concerts_API(
             city.strip(),
             start_date,
-            predicted_bin
+            predicted_bin,
+            option
         )
 
  #sort_concerts_by_genre_by_ai(options)   #here we convert the information the user gave us like the city and starting date
