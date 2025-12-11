@@ -201,12 +201,6 @@ else:
         
     if "url" in display_df.columns:
         display_df["Ticket-Link"] = display_df["url"] #here we just display the url in the table as the ticket link
-        column_config={
-            "Ticket-Link": st.column_config.LinkColumn(
-                "Ticket Link",
-                display_text="Ticket Link",
-            )
-        }
         display_df = display_df[["name", "genre", "date", "time", "venue", "city", "Ticket-Link"]] #these are the columns in the table from the rows we defined before
     else:
         display_df = display_df[["name", "genre", "date", "time", "venue", "city"]] #if there is no url available than theres no ticket link
@@ -224,7 +218,14 @@ else:
             for col in display_df.columns
         ]
 
-    st.dataframe (display_df.style.apply(highlight_today, axis=1)) #here we set up a definition which highlight today's date in the dataframe/table
+    st.dataframe(
+        display_df,
+        column_config={
+            "Ticket-Link": st.column_config.LinkColumn(
+                "Ticket Link",
+            )
+        }
+    )
     
 #Map Display
     map_df = concerts.dropna(subset=["lat", "lon"]) 
