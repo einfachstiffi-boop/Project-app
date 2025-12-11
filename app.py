@@ -95,7 +95,7 @@ BIN_KEYWORDS = {
 }
 
 
-genre_id = ""
+genre_id = "pop"
 
 def concerts_API(city: str, start: date, predicted_bin):
 
