@@ -93,7 +93,7 @@ search = st.button("🔎 Search in City") #thats just the button to start the pr
 #    "bin4": bin4,
 #} #here we make a small library for the bins to use them for the API later
 
-genre_id = "pop"
+genre_id = "KnvZfZ7vAvF
 
 def concerts_API(city: str, start: date, genre_id ):
 
