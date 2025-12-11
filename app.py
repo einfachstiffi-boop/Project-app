@@ -96,8 +96,7 @@ BIN_KEYWORDS = {
 
 def concerts_API(city: str, start: date, predicted_bin):
 
-    
-   # TEMP: hard-code POP to test Ticketmaster
+    # TEMP: hard-code POP to test Ticketmaster
     genre_id = "KnvZfZ7vAvF"  # POP genreId
 
     params = {
@@ -110,80 +109,73 @@ def concerts_API(city: str, start: date, predicted_bin):
         "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),
     }
 
+    # Add keyword expansion if your ML model predicts a bin
     if predicted_bin:
-        keywords = BIN_KEYWORDS.get(predicted_bin, []) #here we make make sure that if the machine learning model gives a genre bin we convert it to our own library to better use it and then convert it to keywords
+        keywords = BIN_KEYWORDS.get(predicted_bin, [])
         if keywords:
-            params["keyword"] = " ".join(keywords) #so now that we converted the genre bin the machine learning model gave us we put it togethere into one string for the API to use for the parameters
+            params["keyword"] = " ".join(keywords)
 
     resp = requests.get(BASE_URL, params=params)
     if resp.status_code != 200:
         st.error(f"Error with the API request ({resp.status_code})")
-        return pd.DataFrame()  #here we send a status code to ticketmaster and if it responds everything is fine. If it doesnt respond we send back an empty dataframe
+        return pd.DataFrame()
 
-    data = resp.json()  #here the information of the API will get translated into a pyhton library
-
+    data = resp.json()
     events = data.get("_embedded", {}).get("events", [])
     if not events:
-        return pd.DataFrame()   #here we try to get the events from ticketmaster if there are no events we return an empty dataframe
+        return pd.DataFrame()
 
     rows = []
     for ev in events:
         name = ev.get("name")
-        dates = ev.get("dates", {})
-        start_info = dates.get("start", {})
+        start_info = ev.get("dates", {}).get("start", {})
         local_date = start_info.get("localDate")
-        local_time = start_info.get("localTime")  #here we start getting the information we need to display like name, dates and the date and time it starts
+        local_time = start_info.get("localTime")
 
-        venue_name = None 
+        venue_name = None
         genre_name = None
         city_name = None
         lat = None
-        lon = None  #here we define variables so we can display the venue name, and latitude and longitude for the coordinates we need for the display in the map later on
+        lon = None
 
         classifications = ev.get("classifications", [])
         if classifications:
-            c = classifications[0]
-            genre = c.get("genre") or {}
-            genre_name = genre.get("name") #here we get the genre names from ticketmaster 
+            genre = classifications[0].get("genre") or {}
+            genre_name = genre.get("name")
 
-        
-        embedded = ev.get("_embedded", {})
-        venues = embedded.get("venues", [])
+        venues = ev.get("_embedded", {}).get("venues", [])
         if venues:
             v = venues[0]
-            venue_name = v.get("name")    #here we get the venue name
-            city_name = v.get("city", {}).get("name")   
+            venue_name = v.get("name")
+            city_name = v.get("city", {}).get("name")
             loc = v.get("location", {})
             lat = loc.get("latitude")
-            lon = loc.get("longitude")   #here we get the location so the longitude/latitude for the coordinates
+            lon = loc.get("longitude")
 
-        url = ev.get("url")  #here we just get the url which will later serve as the Ticket Link
+        url = ev.get("url")
 
-        rows.append(
-            {
-                "name": name,
-                "date": local_date,
-                "time": local_time,
-                "city": city_name,
-                "genre": genre_name,
-                "venue": venue_name,
-                "lat": float(lat) if lat is not None else None,
-                "lon": float(lon) if lon is not None else None,
-                "url": url,  #here we define what information we want to have ready to implement later on in the table and the map, that's like our own library. That's also why longitude and latitude are float variables because they are coordinates for the map
-            }
-        )
+        rows.append({
+            "name": name,
+            "date": local_date,
+            "time": local_time,
+            "city": city_name,
+            "genre": genre_name,
+            "venue": venue_name,
+            "lat": float(lat) if lat else None,
+            "lon": float(lon) if lon else None,
+            "url": url,
+        })
 
-    df = pd.DataFrame(rows) #we convert our own library (rows) into the the DataFrame/table
-
+    df = pd.DataFrame(rows)
     if "date" in df.columns:
         df["date"] = pd.to_datetime(df["date"]).dt.date
 
     df = df.sort_values(by=["date", "time"], ascending=True)
-
     df = df.reset_index(drop=True)
-    df["id"] = df.index #this here just sorts the events with date and time correctly
+    df["id"] = df.index
 
-    return df 
+    return df
+
 
       
 #Search
