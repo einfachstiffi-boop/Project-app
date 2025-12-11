@@ -93,7 +93,7 @@ BIN_KEYWORDS = {
     "bin4": bin4,
 } #here we make a small library for the bins to use them for the API later
 
-genre_id = "KnvZfZ7vAv1"
+genre_id = "pop"
 
 def concerts_API(city: str, start: date, predicted_bin):
 
