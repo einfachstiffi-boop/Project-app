@@ -56,12 +56,12 @@ col1, col2, col3 = st.columns(3)
 with col1:
     city = st.text_input("Insert the city here.") #here is the input field for the city name 
 with col2:
-    start_date = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for which the user wants to find ongoing concerts
-with col3:
-    option = st.selectbox(
+     option = st.selectbox(
     "What country would you want to search in?",
     ("DE", "AT", "CH"),
     ) #here we can select the country which will be implemented into the API
+with col3:
+    start_date = st.date_input("Which date do you want to start looking for?", value=date.today()) #here they can select the starting date for which the user wants to find ongoing concerts
 
 st.divider()
 
