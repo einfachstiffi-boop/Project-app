@@ -94,7 +94,7 @@ BIN_KEYWORDS = {
 }
  
 
-def concerts_API(city: str, start: date, predicted_bin):
+def concerts_API(city: str, start: date, predicted_bin, option:str):
 
     # Always work in DE/AT/CH because genreId is broken, so we use keyword searching only
     keywords = BIN_KEYWORDS.get(predicted_bin, ["concert"])
