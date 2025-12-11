@@ -96,14 +96,8 @@ BIN_KEYWORDS = {
 
 def concerts_API(city: str, start: date, predicted_bin):
 
-    tm_genres = {
-        "bin1": "KnvZfZ7vAvF",   # Pop
-        "bin2": "KnvZfZ7vAeJ",   # Hip-Hop
-        "bin3": "KnvZfZ7vAeA",   # Rock
-        "bin4": "KnvZfZ7vAv1",   # Latin
-    }
-
-    genre_id = tm_genres.get(predicted_bin, None)
+    
+    genre_id = "KnvZfZ7vAvF"  # POP
 
     params = {
         "apikey": API_KEY,
