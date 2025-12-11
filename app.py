@@ -95,7 +95,7 @@ search = st.button("🔎 Search in City") #thats just the button to start the pr
 
 genre_id = "pop"
 
-def concerts_API(city: str, start: date, genre_id = "pop"):
+def concerts_API(city: str, start: date, genre_id ):
 
     # TEMP: hard-code POP to test Ticketmaster
      # POP genreId
