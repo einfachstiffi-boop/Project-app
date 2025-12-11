@@ -105,10 +105,10 @@ def concerts_API(city: str, start: date, predicted_bin):
         "startDateTime": start.strftime("%Y-%m-%dT00:00:00Z"),   #here we def a function so we can request the right information from Ticketmaster for example we clarify music so its concert based and CH so its only for Switzerland also we limit the concerts to 100
     }
 
-    #if predicted_bin:
-        #keywords = BIN_KEYWORDS.get(predicted_bin, []) #here we make make sure that if the machine learning model gives a genre bin we convert it to our own library to better use it and then convert it to keywords
-        #if keywords:
-            #params["keyword"] = " ".join(keywords) #so now that we converted the genre bin the machine learning model gave us we put it togethere into one string for the API to use for the parameters
+    if predicted_bin:
+        keywords = BIN_KEYWORDS.get(predicted_bin, []) #here we make make sure that if the machine learning model gives a genre bin we convert it to our own library to better use it and then convert it to keywords
+        if keywords:
+            params["keyword"] = " ".join(keywords) #so now that we converted the genre bin the machine learning model gave us we put it togethere into one string for the API to use for the parameters
 
     resp = requests.get(BASE_URL, params=params)
     if resp.status_code != 200:
